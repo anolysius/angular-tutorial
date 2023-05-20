@@ -1,3 +1,4 @@
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { HousingService } from './../housing.service';
 import { HousingLocation } from './../housinglocation';
 import { inject } from '@angular/core';
@@ -8,7 +9,7 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 @Component({
   selector: 'app-details',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule],
   template: `
     <article>
       <img
@@ -32,6 +33,20 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
           </li>
         </ul>
       </section>
+      <section class="listing-apply">
+        <h2 class="section-heading">Apply now to live here</h2>
+        <form [formGroup]="applyForm" (submit)="submitApplication()">
+          <label for="first-name">FIRST NAME</label>
+          <input id="first-name" type="text" formControlName="firstName" />
+
+          <label for="last-name">FIRST NAME</label>
+          <input id="last-name" type="text" formControlName="lastName" />
+
+          <label for="email">EMAIL</label>
+          <input id="email" type="email" formControlName="email" />
+          <button type="submit" class="primary">Apply now</button>
+        </form>
+      </section>
     </article>
   `,
   styleUrls: ['./details.component.scss'],
@@ -41,10 +56,24 @@ export class DetailsComponent {
   housingService: HousingService = inject(HousingService);
   housingLocationId: number = -1;
   housingLocation: HousingLocation | undefined;
+  applyForm = new FormGroup({
+    firstName: new FormControl(''),
+    lastName: new FormControl(''),
+    email: new FormControl(''),
+  });
+
   constructor() {
     this.housingLocationId = +this.route.snapshot.params['id'];
     this.housingLocation = this.housingService.getHousingLocaionsById(
       this.housingLocationId
+    );
+  }
+
+  submitApplication() {
+    this.housingService.submitApplication(
+      this.applyForm.value.firstName ?? '',
+      this.applyForm.value.firstName ?? '',
+      this.applyForm.value.firstName ?? ''
     );
   }
 }
