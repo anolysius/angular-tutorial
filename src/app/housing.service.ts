@@ -113,9 +113,7 @@ export class HousingService {
     return this.housingLocationList;
   }
 
-  getHousingLocaionsById(id: number): Array<HousingLocation> {
-    return this.housingLocationList.filter((h) => {
-      h.id === id;
-    });
+  getHousingLocaionsById(id: number): HousingLocation {
+    return this.housingLocationList.filter((h) => h.id === id)?.[0];
   }
 }
