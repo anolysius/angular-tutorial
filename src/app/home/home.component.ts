@@ -1,3 +1,4 @@
+import { HousingLocation } from './../housinglocation';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HousingLocationComponent } from '../housing-location/housing-location.component';
@@ -14,9 +15,22 @@ import { HousingLocationComponent } from '../housing-location/housing-location.c
       </form>
     </section>
     <section class="results">
-      <app-housing-location></app-housing-location>
+      <app-housing-location
+        [housingLocaion]="housingLocation"
+      ></app-housing-location>
     </section>
   `,
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent {}
+export class HomeComponent {
+  housingLocation: HousingLocation = {
+    id: 9999,
+    name: 'Test Home',
+    city: 'Test city',
+    state: 'ST',
+    photo: 'assets/tu.jpeg',
+    availableUnits: 99,
+    wifi: true,
+    laundry: false,
+  };
+}
